@@ -2,9 +2,9 @@
 
 This repository contains the code for setting up [DVC](https://dvc.org/) to use a remote computer server using [dask](https://docs.dask.org/en/latest/).
 
-## Setup
+## How to set up the use case
 
-The setup have the following prerequisites:
+The use case have the following prerequisites:
 
 1. A remote server with:
     1. SSH installed.
@@ -14,7 +14,7 @@ The setup have the following prerequisites:
     1. Dask scheduler installed and open at port 8786.
 1. A local SSH keyfile (`ssh-keygen`), which have been copied to the remote server: `ssh-copy-id [REMOTE_USERNAME]@[REMOTE_IP]`.
 1. An open SSH port-forward to the dask scheduler from our local to the remote machine: `ssh -L 8786:[REMOTE_USERNAME]@[REMOTE_IP]:8786 [REMOTE_USERNAME]@[REMOTE_IP]`.
-1. Setup local DVC development repository (following https://dvc.org/doc/user-guide/contributing/) with a conda environment:
+1. Set up local DVC development repository (following https://dvc.org/doc/user-guide/contributing/) with a conda environment:
     1. Fork https://github.com/iterative/dvc on Github.
     1. `git clone git@github.com:<GITHUB_USERNAME>/dvc.git`
     1. `cd dvc`
@@ -40,7 +40,7 @@ The setup have the following prerequisites:
     1. `dvc remote modify ahsoka_cache keyfile [PATH_TO_YOUR_PUBLIC_SSH_KEY] --global`
     1. `dvc config cache.ssh ahsoka_cache --global`
 
-The setup of this DVC and Dask test have been performed as follow:
+This use case of DVC and Dask has been set up as follow:
 
 1. On the remote server do the following, to create the remote DVC data directory for this project (i.e. this use case):
     1. `cd scratch/dvc_users/[REMOTE_USERNAME]`
