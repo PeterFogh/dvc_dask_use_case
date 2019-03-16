@@ -1,0 +1,15 @@
+cmd: python code/xml_to_tsv.py
+deps:
+- md5: ef78ad321458ea991a28967145a00ec0
+  path: code/xml_to_tsv.py
+- md5: 80193939d2cdc8298d51991021973cf6
+  path: code/conf.py
+- md5: cfdaa4bba57fa07d81ff96685a9aab2c
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts.xml
+md5: af655fc891b1f81ff3c42f07c2932528
+outs:
+- cache: true
+  md5: 3f9c7c3ae51db2eed7ba99e6e88a3831
+  metric: false
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts.tsv
+wdir: .

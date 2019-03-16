@@ -1,0 +1,15 @@
+cmd: python code/train_model.py 20180319
+deps:
+- md5: 34a73fabaf280e504610b36a673f6779
+  path: code/train_model.py
+- md5: 80193939d2cdc8298d51991021973cf6
+  path: code/conf.py
+- md5: 9c0d648931a0be9299a28237d885c1af
+  path: remote://ahsoka/dvc_dask_use_case/data/matrix-train.p
+md5: ca557fa4efde7e8cbc4f42976e2c93ff
+outs:
+- cache: true
+  md5: d6e84f3ea1d883c46592c4848fcad533
+  metric: false
+  path: remote://ahsoka/dvc_dask_use_case/data/model.p
+wdir: .

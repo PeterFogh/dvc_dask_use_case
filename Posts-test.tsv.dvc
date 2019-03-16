@@ -1,0 +1,19 @@
+cmd: python code/split_train_test.py 0.33 20180319
+deps:
+- md5: 3674159830747df700d760dc1ab346ef
+  path: code/split_train_test.py
+- md5: 80193939d2cdc8298d51991021973cf6
+  path: code/conf.py
+- md5: 3f9c7c3ae51db2eed7ba99e6e88a3831
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts.tsv
+md5: 57284501f1b73d32f276d35cb471ab42
+outs:
+- cache: true
+  md5: 5f42ecd9a121b4382cd6510534533ec3
+  metric: false
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts-test.tsv
+- cache: true
+  md5: baf1e59b9cf41021bf263499a066fc4e
+  metric: false
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts-train.tsv
+wdir: .

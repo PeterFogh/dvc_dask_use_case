@@ -1,0 +1,21 @@
+cmd: python code/featurization.py
+deps:
+- md5: f42e23a8c818a33e31e1e265a65e5424
+  path: code/featurization.py
+- md5: 80193939d2cdc8298d51991021973cf6
+  path: code/conf.py
+- md5: baf1e59b9cf41021bf263499a066fc4e
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts-train.tsv
+- md5: 5f42ecd9a121b4382cd6510534533ec3
+  path: remote://ahsoka/dvc_dask_use_case/data/Posts-test.tsv
+md5: 37ef6d1bb36fd94e29c23080ba6dd3cb
+outs:
+- cache: true
+  md5: 9c0d648931a0be9299a28237d885c1af
+  metric: false
+  path: remote://ahsoka/dvc_dask_use_case/data/matrix-train.p
+- cache: true
+  md5: de6045fc4419c619b01f58b508e0a25a
+  metric: false
+  path: remote://ahsoka/dvc_dask_use_case/data/matrix-test.p
+wdir: .
