@@ -4,6 +4,8 @@ This repository contains the description and code for setting up [DVC](https://d
 
 ## How to set up the use case
 
+### Prerequisites
+
 The use case have the following prerequisites:
 
 1. A remote server with:
@@ -38,6 +40,8 @@ The use case have the following prerequisites:
     1. `dvc remote modify ahsoka_cache port 22 --global`
     1. `dvc remote modify ahsoka_cache keyfile [PATH_TO_YOUR_PUBLIC_SSH_KEY] --global`
     1. `dvc config cache.ssh ahsoka_cache --global`
+
+## Use case setup
 
 This use case of DVC and Dask has been set up as follow:
 

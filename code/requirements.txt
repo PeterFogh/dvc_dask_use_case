@@ -1,4 +1,0 @@
-pandas
-sklearn
-scikit-learn
-scipy
