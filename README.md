@@ -1,6 +1,6 @@
 # DVC and Dask use case
 
-This repository contains the code for setting up [DVC](https://dvc.org/) to use a remote computer server using [dask](https://docs.dask.org/en/latest/).
+This repository contains the description and code for setting up [DVC](https://dvc.org/) to use a remote computer server using [dask](https://docs.dask.org/en/latest/). Note that this use case relay on the original DVC tutorial and its code found here https://dvc.org/doc/tutorial.
 
 ## How to set up the use case
 
