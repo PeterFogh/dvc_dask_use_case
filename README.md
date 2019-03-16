@@ -1,6 +1,6 @@
-# DVC and Dask setup test
+# DVC and Dask use case
 
-This repository contains the code for setting up DVC to use a remote computer server using dask.
+This repository contains the code for setting up [DVC](https://dvc.org/) to use a remote computer server using [dask](https://docs.dask.org/en/latest/).
 
 ## Setup
 
@@ -9,8 +9,8 @@ The setup have the following prerequisites:
 1. A remote server with:
     1. SSH installed.
     1. A unix user you have the username and password for.
-    1. A folder for you remote DVC cache, my is at `/scratch/dvc_data_cache/`.
-    1. A folder for the remote shared DVC cache, my is at `/scratch/dvc_users/[REMOTE_USERNAME]/`.
+    1. A folder for your remote shared DVC cache, my is at `/scratch/dvc_data_cache/`.
+    1. A folder for your remote DVC data directories, my is at `/scratch/dvc_users/[REMOTE_USERNAME]/`.
     1. Dask scheduler installed and open at port 8786.
 1. A local SSH keyfile (`ssh-keygen`), which have been copied to the remote server: `ssh-copy-id [REMOTE_USERNAME]@[REMOTE_IP]`.
 1. An open SSH port-forward to the dask scheduler from our local to the remote machine: `ssh -L 8786:[REMOTE_USERNAME]@[REMOTE_IP]:8786 [REMOTE_USERNAME]@[REMOTE_IP]`.
@@ -42,11 +42,11 @@ The setup have the following prerequisites:
 
 The setup of this DVC and Dask test have been performed as follow:
 
-1. On the remote server do the following:
+1. On the remote server do the following, to create the remote DVC data directory for this project (i.e. this use case):
     1. `cd scratch/dvc_users/[REMOTE_USERNAME]`
-    1. `mkdir dvc_test_classify`
+    1. `mkdir dvc_dask_use_case`
     1. `mkdir data`
     1. `wget -P data/ https://s3-us-west-2.amazonaws.com/dvc-share/so/100K/Posts.xml.tgz`
     1. `tar zxf data/Posts.xml.tgz -C data/`
 1. Clone this test repository from my Github:
-    `git clone git@github.com:PeterFogh/dvc_test_classify.git`
+    `git clone git@github.com:PeterFogh/dvc_dask_use_case.git`
