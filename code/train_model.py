@@ -1,3 +1,14 @@
+"""
+Train the model.
+
+Routine Listings
+----------------
+get_params()
+    Get the DVC stage parameters.
+train(input, output, model, model_params)
+    Train model on feature matrix.
+
+"""
 import sys
 
 import dask
@@ -9,14 +20,18 @@ import pickle
 import conf
 
 
-client = dask.distributed.Client('localhost:8786')
-INPUT = conf.train_matrix
-OUTPUT = conf.model
+def get_params():
+    """Get the DVC stage parameters."""
+    return {
+        'classifier': RandomForestClassifier,
+        'n_estimators': 100,
+        'n_jobs': 2,
+        'random_state': 42}
 
 
 @dask.delayed
-def workflow(input, output, seed):
-
+def train(input, output, model, model_params):
+    """Train model on feature matrix."""
     with open(input, 'rb') as fd:
         matrix = pickle.load(fd)
 
@@ -27,19 +42,24 @@ def workflow(input, output, seed):
     sys.stderr.write('X matrix size {}\n'.format(x.shape))
     sys.stderr.write('Y matrix size {}\n'.format(labels.shape))
 
-    clf = RandomForestClassifier(n_estimators=100, n_jobs=2, random_state=seed)
+    clf = model(**model_params)
     clf.fit(x, labels)
 
     with open(output, 'wb') as fd:
         pickle.dump(clf, fd)
 
 
-if len(sys.argv) != 2:
-    sys.stderr.write('Arguments error. Usage:\n')
-    sys.stderr.write(
-        '\tpython train_model.py INPUT_MATRIX_FILE SEED OUTPUT_MODEL_FILE\n')
-    sys.exit(1)
+if __name__ == '__main__':
+    client = dask.distributed.Client('localhost:8786')
+    INPUT = conf.train_matrix
+    OUTPUT = conf.model
 
-seed = int(sys.argv[1])
+    config = get_params()
+    CLASSIFIER = config['classifier']
+    N_ESTIMATORS = config['n_estimators']
+    N_JOBS = config['n_jobs']
+    RANDOM_STATE = config['random_state']
 
-workflow(INPUT, OUTPUT, seed).compute()
+    train(INPUT, OUTPUT, CLASSIFIER,
+          {'n_estimators': N_ESTIMATORS, 'n_jobs': N_JOBS,
+           'random_state': RANDOM_STATE}).compute()

@@ -1,3 +1,14 @@
+"""
+Split the dataset into train and test set.
+
+Routine Listings
+----------------
+get_params()
+    Get the DVC stage parameters.
+split(seed, test_ratio, input_path, train, test)
+    Split dataset into train and test set.
+
+"""
 import sys
 
 import dask
@@ -8,14 +19,16 @@ from sklearn.model_selection import train_test_split
 import conf
 
 
-client = dask.distributed.Client('localhost:8786')
-INPUT_PATH = conf.source_tsv
-TRAIN = conf.train_tsv
-TEST = conf.test_tsv
+def get_params():
+    """Get the DVC stage parameters."""
+    return {
+        'test_ratio': 0.33,
+        'seed': 42}
 
 
 @dask.delayed
-def workflow(seed, test_ratio, input_path, train, test):
+def split(seed, test_ratio, input_path, train, test):
+    """Split dataset into train and test set."""
     def sub_df_by_ids(df, ids):
         df_train_order = pd.DataFrame(data={'id': ids})
         return df.merge(df_train_order, on='id')
@@ -53,15 +66,14 @@ def workflow(seed, test_ratio, input_path, train, test):
     df_test.to_csv(test, sep='\t', header=False, index=False)
 
 
-if len(sys.argv) != 3:
-    sys.stderr.write('Arguments error. Usage:\n')
-    sys.stderr.write('\tpython split_train_test.py TEST_RATIO SEED\n')
-    sys.stderr.write(
-        '\t\tTEST_RATIO - train set ratio (double). Example: 0.3\n')
-    sys.stderr.write('\t\tSEED - random state (integer). Example: 20170423\n')
-    sys.exit(1)
+if __name__ == '__main__':
+    client = dask.distributed.Client('localhost:8786')
+    INPUT_PATH = conf.source_tsv
+    TRAIN = conf.train_tsv
+    TEST = conf.test_tsv
 
-test_ratio = float(sys.argv[1])
-seed = int(sys.argv[2])
+    config = get_params()
+    TEST_RATIO = config['test_ratio']
+    SEED = config['seed']
 
-workflow(seed, test_ratio, INPUT_PATH, TRAIN, TEST).compute()
+    split(SEED, TEST_RATIO, INPUT_PATH, TRAIN, TEST).compute()

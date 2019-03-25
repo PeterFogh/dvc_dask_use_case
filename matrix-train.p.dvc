@@ -1,21 +1,21 @@
 cmd: python code/featurization.py
 deps:
-- md5: f42e23a8c818a33e31e1e265a65e5424
+- md5: f8a7fdc0510ca0c656f41bf5a386be84
   path: code/featurization.py
-- md5: 80193939d2cdc8298d51991021973cf6
+- md5: b60c9dc2caa2bd8bb610345493d988ad
   path: code/conf.py
-- md5: baf1e59b9cf41021bf263499a066fc4e
+- md5: 0323b09cf362ea25c3ac958e586b33f2
   path: remote://ahsoka/dvc_dask_use_case/data/Posts-train.tsv
-- md5: 5f42ecd9a121b4382cd6510534533ec3
+- md5: a453698a3e3c6cd834cf72363a01511d
   path: remote://ahsoka/dvc_dask_use_case/data/Posts-test.tsv
-md5: 37ef6d1bb36fd94e29c23080ba6dd3cb
+md5: 7937b99bee2269de948fb90d3e279b25
 outs:
 - cache: true
-  md5: 9c0d648931a0be9299a28237d885c1af
+  md5: 9927807fdb876c0c62aba6bff658ba47
   metric: false
   path: remote://ahsoka/dvc_dask_use_case/data/matrix-train.p
 - cache: true
-  md5: de6045fc4419c619b01f58b508e0a25a
+  md5: c7f79967ab83199e59f0b7178b2551b5
   metric: false
   path: remote://ahsoka/dvc_dask_use_case/data/matrix-test.p
 wdir: .

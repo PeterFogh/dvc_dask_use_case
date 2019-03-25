@@ -1,3 +1,14 @@
+"""
+Transform dataset to feature set.
+
+Routine Listings
+----------------
+get_params()
+    Get the DVC stage parameters.
+featurize(train_input, test_input, train_output, test_output)
+    Transform data to features.
+
+"""
 import sys
 
 import dask
@@ -12,17 +23,19 @@ import pickle
 import conf
 
 
-client = dask.distributed.Client('localhost:8786')
-np.set_printoptions(suppress=True)
-TRAIN_INPUT = conf.train_tsv
-TEST_INPUT = conf.test_tsv
-TRAIN_OUTPUT = conf.train_matrix
-TEST_OUTPUT = conf.test_matrix
+def get_params():
+    """Get the DVC stage parameters."""
+    return {
+        'max_features': 5000
+    }
 
 
 @dask.delayed
-def workflow(train_input, test_input, train_output, test_output):
+def featurize(train_input, test_input, train_output, test_output,
+              max_features):
+    """Transform data to features."""
     def get_df(input):
+        """Load dataset from a CSV file."""
         df = pd.read_csv(
             input,
             encoding='utf-8',
@@ -35,6 +48,7 @@ def workflow(train_input, test_input, train_output, test_output):
         return df
 
     def save_matrix(df, matrix, output):
+        """Save feature matrix."""
         id_matrix = sparse.csr_matrix(df.id.astype(np.int64)).T
         label_matrix = sparse.csr_matrix(df.label.astype(np.int64)).T
 
@@ -51,7 +65,7 @@ def workflow(train_input, test_input, train_output, test_output):
     train_words = np.array(df_train.text.str.lower().values.astype('U'))
 
     bag_of_words = CountVectorizer(
-        stop_words='english', max_features=5000)
+        stop_words='english', max_features=max_features)
     bag_of_words.fit(train_words)
     train_words_binary_matrix = bag_of_words.transform(train_words)
 
@@ -70,4 +84,16 @@ def workflow(train_input, test_input, train_output, test_output):
     save_matrix(df_test, test_words_tfidf_matrix, test_output)
 
 
-workflow(TRAIN_INPUT, TEST_INPUT, TRAIN_OUTPUT, TEST_OUTPUT).compute()
+if __name__ == '__main__':
+    client = dask.distributed.Client('localhost:8786')
+    np.set_printoptions(suppress=True)
+    TRAIN_INPUT = conf.train_tsv
+    TEST_INPUT = conf.test_tsv
+    TRAIN_OUTPUT = conf.train_matrix
+    TEST_OUTPUT = conf.test_matrix
+
+    config = get_params()
+    MAX_FEATUERS = config['max_features']
+
+    featurize(TRAIN_INPUT, TEST_INPUT, TRAIN_OUTPUT, TEST_OUTPUT,
+              MAX_FEATUERS).compute()

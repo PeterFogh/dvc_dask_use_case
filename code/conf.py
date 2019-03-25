@@ -1,3 +1,7 @@
+"""
+Define paths to all DVC dependency and output files.
+
+"""
 import os
 from pathlib import Path
 from urllib.parse import urlparse

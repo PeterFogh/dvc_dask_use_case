@@ -28,9 +28,8 @@ The use case have the following prerequisites:
     1. `pip install pre-commit`
     1. `pre-commit install`
     1. `which dvc` should say `[HOME]/anaconda3/envs/py36_open_source_dvc/bin/dvc` and `dvc --version` should say the exact version available in you local DVC development repository.
-1. Configure you local DVC globally for you local machine, note that my I call my remote server "ahsoka":
+1. Configure you local DVC globally for you local machine, note that I call my remote server "ahsoka":
     1. `conda activate py36_open_source_dvc`
-    1. `dvc config core.analytics false --global`
     1. `dvc remote add ahsoka ssh://[REMOTE_IP]/scratch/dvc_users/[REMOTE_USERNAME]/ --global`
     1. `dvc remote modify ahsoka user [REMOTE_USERNAME] --global`
     1. `dvc remote modify ahsoka port 22 --global`
