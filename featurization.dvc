@@ -1,14 +1,14 @@
 cmd: python featurization.py
 deps:
-- md5: f8a7fdc0510ca0c656f41bf5a386be84
+- md5: 903a645afaa9d903db32bdac86d98443
   path: featurization.py
-- md5: 646795aad1b9e67a3b51de35bf5af29b
+- md5: 22c9bd510158182ace4398ac1ddc9332
   path: conf.py
 - md5: 0323b09cf362ea25c3ac958e586b33f2
   path: remote://ahsoka/dvc_dask_use_case/Posts-train.tsv
 - md5: a453698a3e3c6cd834cf72363a01511d
   path: remote://ahsoka/dvc_dask_use_case/Posts-test.tsv
-md5: 8ebe903e493a1be058196bb5f82fb072
+md5: 2be9adcc5c600bffa98bf4379f2337d2
 outs:
 - cache: true
   md5: 9927807fdb876c0c62aba6bff658ba47

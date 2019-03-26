@@ -51,8 +51,8 @@ def train(input, output, model, model_params):
 
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
-    INPUT = conf.train_matrix
-    OUTPUT = conf.model
+    INPUT_TRAIN_MATRIX_PATH = conf.data_dir/'matrix-train.p'
+    OUTPUT_MODEL_PATH = conf.data_dir/'model.p'
 
     config = get_params()
     CLASSIFIER = config['classifier']
@@ -60,6 +60,6 @@ if __name__ == '__main__':
     N_JOBS = config['n_jobs']
     RANDOM_STATE = config['random_state']
 
-    train(INPUT, OUTPUT, CLASSIFIER,
+    train(INPUT_TRAIN_MATRIX_PATH, OUTPUT_MODEL_PATH, CLASSIFIER,
           {'n_estimators': N_ESTIMATORS, 'n_jobs': N_JOBS,
            'random_state': RANDOM_STATE}).compute()

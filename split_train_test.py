@@ -68,12 +68,14 @@ def split(seed, test_ratio, input_path, train, test):
 
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
-    INPUT_PATH = conf.source_tsv
-    TRAIN = conf.train_tsv
-    TEST = conf.test_tsv
+
+    INPUT_DATASET_TSV_PATH = conf.data_dir/'Posts.tsv'
+    OUTPUT_TRAIN_TSV_PATH = conf.data_dir/'Posts-train.tsv'
+    OUTPUT_TEST_TSV_PATH = conf.data_dir/'Posts-test.tsv'
 
     config = get_params()
     TEST_RATIO = config['test_ratio']
     SEED = config['seed']
 
-    split(SEED, TEST_RATIO, INPUT_PATH, TRAIN, TEST).compute()
+    split(SEED, TEST_RATIO, INPUT_DATASET_TSV_PATH,
+          OUTPUT_TRAIN_TSV_PATH, OUTPUT_TEST_TSV_PATH).compute()

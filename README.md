@@ -58,7 +58,7 @@ On your local machine do the following:
 1. Install the Conda environment for this repository - note the new enviroment must point to your local DVC development repository:
     1. `conda env create -f conda_env.yml`, which have been create by the following commands (executed the 16-03-2019):
         1. `conda create --name py36_open_source_dvc_dask_use_case --clone py36_open_source_dvc`
-        1. `conda install -n py36_open_source_dvc_dask_use_case dask scikit-learn`
+        1. `conda install -n py36_open_source_dvc_dask_use_case dask scikit-learn mlflow matplotlib`
         1. `conda env export -n py36_open_source_dvc_dask_use_case > conda_env.yml`
     1. Check dvc version matches your development repository version: `conda activate py36_open_source_dvc && which dvc && dvc --version` and ``conda activate py36_open_source_dvc_dask_use_case && which dvc && dvc --version``
 1. Reproduce the DVC pipeline: `dvc repro` - which have been specified by the following DVC stages:
@@ -67,5 +67,9 @@ On your local machine do the following:
     1. `dvc run -d split_train_test.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/Posts.tsv -o remote://ahsoka/dvc_dask_use_case/Posts-test.tsv -o remote://ahsoka/dvc_dask_use_case/Posts-train.tsv -f split_train_test.dvc python split_train_test.py`
     1. `dvc run -d featurization.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/Posts-train.tsv -d remote://ahsoka/dvc_dask_use_case/Posts-test.tsv -o remote://ahsoka/dvc_dask_use_case/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/matrix-test.p -f featurization.dvc python featurization.py`
     1. `dvc run -d train_model.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/model.p -f train_model.dvc python train_model.py`
-    1. ` dvc run -d evaluate.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/model.p -d remote://ahsoka/dvc_dask_use_case/matrix-test.p -m eval.txt -f Dvcfile python evaluate.py`
+    1. `dvc run -d evaluate.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/model.p -d remote://ahsoka/dvc_dask_use_case/matrix-test.p -m eval.txt -f Dvcfile python evaluate.py`
 1. Show DVC metrics `dvc metrics show -a`.
+
+## Problems with MLflow for the use case
+
+- **MLflow artifacts do not support our SSH setup.** `mlflow.log_artifacts()` do not support files saved on the remote server. Artifact files must be located at a directory shared by both the client machine and the server using the methods [described here](https://www.mlflow.org/docs/latest/tracking.html#supported-artifact-stores). Read https://github.com/mlflow/mlflow/issues/572#issuecomment-427718078 for more details on the problem. **However, we can circumvent this problem using `dask` to executed the MLflow run on the remote server. Thereby, both the client and the MLflow tracking server has not problem reading and writing to the same folder, as the they are executed on the same machine.**  

@@ -1,10 +1,20 @@
 """
 Compute model performance on test set and save results to `mlflow`.
 
+Routine Listings
+----------------
+evaluate()
+    Return AUC for text dataset.
+save_mlflow_run(params, metrices, artifacts)
+    Save MLflow run (params, metrices, artifacts) to tracking server.
+save_plot(path, train_auc, test_auc)
+    Save plot of train and test AUC to file.
+
 """
 import dask
 import dask.distributed
 import mlflow
+import pandas as pd
 import pickle
 import sklearn.metrics as metrics
 from sklearn.metrics import precision_recall_curve
@@ -18,7 +28,7 @@ import xml_to_tsv
 
 @dask.delayed
 def evaluate(model_file, test_matrix_file):
-    """Return AUC for text dataset"""
+    """Return AUC for text dataset."""
     with open(model_file, 'rb') as fd:
         model = pickle.load(fd)
 
@@ -37,17 +47,51 @@ def evaluate(model_file, test_matrix_file):
     return auc
 
 
+@dask.delayed
+def save_mlflow_run(params, metrices, artifacts):
+    """Save MLflow run (params, metrices, artifacts) to tracking server."""
+    mlflow.set_tracking_uri('http://localhost:5000')
+    mlflow.set_experiment('dvc_dask_use_case')
+    with mlflow.start_run():
+        for stage, stage_params in params.items():
+            for key, value in stage_params.items():
+                mlflow.log_param(key, value)
+
+        for metric, value in metrices.items():
+            mlflow.log_metric(metric, value)
+
+        for path in artifacts:
+            mlflow.log_artifact(path)
+
+
+@dask.delayed
+def save_plot(path, train_auc, test_auc):
+    """Save plot of train and test AUC to file."""
+    data = pd.Series(
+        {'train_auc': train_auc, 'test_auc': test_auc})
+    ax = data.plot.bar()
+    fig = ax.get_figure()
+    fig.savefig(path)
+
+
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
-    MODEL_FILE = conf.model
-    TEST_MATRIX_FILE = conf.test_matrix
-    METRICS_FILE = conf.metrics_file
+    INPUT_TRAIN_MATRIX_PATH = conf.data_dir/'matrix-train.p'
+    INPUT_TEST_MATRIX_PATH = conf.data_dir/'matrix-test.p'
+    INPUT_MODEL_PATH = conf.data_dir/'model.p'
+    OUTPUT_METRICS_PATH = 'eval.txt'
+    OUTPUT_PLOT_PATH = conf.data_dir/'train_test_auc_plot.png'
 
-    auc = evaluate(MODEL_FILE, TEST_MATRIX_FILE).compute()
+    train_auc = evaluate(INPUT_MODEL_PATH, INPUT_TRAIN_MATRIX_PATH).compute()
+    test_auc = evaluate(INPUT_MODEL_PATH, INPUT_TEST_MATRIX_PATH).compute()
 
-    print('AUC={}'.format(auc))
-    with open(METRICS_FILE, 'w') as fd:
-        fd.write('AUC: {:4f}\n'.format(auc))
+    save_plot(OUTPUT_PLOT_PATH, train_auc, test_auc).compute()
+
+    print('TRAIN_AUC={}'.format(train_auc))
+    print('TEST_AUC={}'.format(test_auc))
+    with open(OUTPUT_METRICS_PATH, 'w') as fd:
+        fd.write('TRAIN_AUC: {:4f}\n'.format(train_auc))
+        fd.write('TEST_AUC: {:4f}\n'.format(test_auc))
 
     CONFIGURATIONS = {
         'xml_to_tsv': xml_to_tsv.get_params(),
@@ -56,9 +100,10 @@ if __name__ == '__main__':
         'train_model': train_model.get_params()
     }
 
-    with mlflow.start_run():
-        for stage, params in CONFIGURATIONS.items():
-            for param, value in CONFIGURATIONS.items():
-                mlflow.log_param(param, value)
+    overall_scores = {
+        'TRAIN_AUC': train_auc,
+        'TEST_AUC': test_auc
+    }
 
-        mlflow.log_metric("AUC", auc)
+    save_mlflow_run(
+        CONFIGURATIONS, overall_scores, [OUTPUT_PLOT_PATH]).compute()

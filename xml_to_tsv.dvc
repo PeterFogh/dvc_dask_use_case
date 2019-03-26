@@ -1,12 +1,12 @@
 cmd: python xml_to_tsv.py
 deps:
-- md5: ec9515b4ef14240946edb3eba5ddb21c
+- md5: 14360a3b507269d13e83386d54436342
   path: xml_to_tsv.py
-- md5: 646795aad1b9e67a3b51de35bf5af29b
+- md5: 22c9bd510158182ace4398ac1ddc9332
   path: conf.py
 - md5: cfdaa4bba57fa07d81ff96685a9aab2c
   path: remote://ahsoka/dvc_dask_use_case/Posts.xml
-md5: 02f4da40ec13b490fa3b427323b4b2dd
+md5: 5c38d44971ac7d1701d96129d6e73c78
 outs:
 - cache: true
   md5: 3f9c7c3ae51db2eed7ba99e6e88a3831
