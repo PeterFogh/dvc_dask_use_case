@@ -1,6 +1,6 @@
 cmd: python evaluate.py
 deps:
-- md5: c4aeedabfd38aa90ff8007c916d756b3
+- md5: fc1eea9518603c52ab33d0e8d0546e85
   path: evaluate.py
 - md5: 22c9bd510158182ace4398ac1ddc9332
   path: conf.py
@@ -8,7 +8,7 @@ deps:
   path: remote://ahsoka/dvc_dask_use_case/model.p
 - md5: c7f79967ab83199e59f0b7178b2551b5
   path: remote://ahsoka/dvc_dask_use_case/matrix-test.p
-md5: c4e0517f758311074f68453dbc2f842a
+md5: 5ee67b8791b490645ae1011f84a8fd17
 outs:
 - cache: true
   md5: 3c872693e00d1599fd1508032be2ac32

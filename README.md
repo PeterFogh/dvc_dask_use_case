@@ -13,9 +13,10 @@ The use case have the following prerequisites:
     1. A unix user you have the username and password for.
     1. A folder for your remote shared DVC cache, my is at `/scratch/dvc_data_cache/`.
     1. A folder for your remote DVC data directories, my is at `/scratch/dvc_users/[REMOTE_USERNAME]/`.
-    1. Dask scheduler installed and open at port 8786.
+    1. A Dask scheduler installed and running at port 8786, see http://docs.dask.org/en/latest/setup.html for a guide.
+    1. A MLflow tracking server installed and running at host 0.0.0.0 and port 5000,  `mlflow server --host 0.0.0.0`
 1. A local SSH keyfile (`ssh-keygen`), which have been copied to the remote server: `ssh-copy-id [REMOTE_USERNAME]@[REMOTE_IP]`.
-1. An open SSH port-forward to the dask scheduler from our local to the remote machine: `ssh -L 8786:[REMOTE_USERNAME]@[REMOTE_IP]:8786 [REMOTE_USERNAME]@[REMOTE_IP]`.
+1. An open SSH port-forward to the Dask scheduler and MLflow tracking server from your local machine to the remote server, with `ssh -L 8786:[REMOTE_USERNAME]@[REMOTE_IP]:8786, -L 5000:[REMOTE_USERNAME]@[REMOTE_IP]:5000 [REMOTE_USERNAME]@[REMOTE_IP]`.
 1. Set up local DVC development repository (following https://dvc.org/doc/user-guide/contributing/) with a conda environment:
     1. Fork https://github.com/iterative/dvc on Github.
     1. `git clone git@github.com:<GITHUB_USERNAME>/dvc.git`
@@ -49,6 +50,7 @@ On your remote server do the following:
 1. To create the remote DVC data directory for this project (i.e. this use case):
     1. `cd scratch/dvc_users/[REMOTE_USERNAME]`
     1. `mkdir dvc_dask_use_case`
+    1. `cd dvc_dask_use_case`
     1. `wget -P ./ https://s3-us-west-2.amazonaws.com/dvc-share/so/100K/Posts.xml.tgz`
     1. `tar zxf ./Posts.xml.tgz -C ./`
 
@@ -69,7 +71,8 @@ On your local machine do the following:
     1. `dvc run -d train_model.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/model.p -f train_model.dvc python train_model.py`
     1. `dvc run -d evaluate.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/model.p -d remote://ahsoka/dvc_dask_use_case/matrix-test.p -m eval.txt -f Dvcfile python evaluate.py`
 1. Show DVC metrics `dvc metrics show -a`.
+1. Visit MLflow tracking server webUI from your local brower at http://localhost:5000/ to see the results of the pipeline.
 
 ## Problems with MLflow for the use case
 
-- **MLflow artifacts do not support our SSH setup.** `mlflow.log_artifacts()` do not support files saved on the remote server. Artifact files must be located at a directory shared by both the client machine and the server using the methods [described here](https://www.mlflow.org/docs/latest/tracking.html#supported-artifact-stores). Read https://github.com/mlflow/mlflow/issues/572#issuecomment-427718078 for more details on the problem. **However, we can circumvent this problem using `dask` to executed the MLflow run on the remote server. Thereby, both the client and the MLflow tracking server has not problem reading and writing to the same folder, as the they are executed on the same machine.**  
+- **MLflow artifacts do not support our SSH setup.** `mlflow.log_artifacts()` do not support files saved on the remote server. Artifact files must be located at a directory shared by both the client machine and the server using the methods [described here](https://www.mlflow.org/docs/latest/tracking.html#supported-artifact-stores). Read https://github.com/mlflow/mlflow/issues/572#issuecomment-427718078 for more details on the problem. **However, we can circumvent this problem using Dask to executed the MLflow run on the remote server. Thereby, both the client and the MLflow tracking server has not problem reading and writing to the same folder, as the they are executed on the same machine.**  
