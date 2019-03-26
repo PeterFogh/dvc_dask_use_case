@@ -60,7 +60,8 @@ On your local machine do the following:
 1. Install the Conda environment for this repository - note the new enviroment must point to your local DVC development repository:
     1. `conda env create -f conda_env.yml`, which have been create by the following commands (executed the 16-03-2019):
         1. `conda create --name py36_open_source_dvc_dask_use_case --clone py36_open_source_dvc`
-        1. `conda install -n py36_open_source_dvc_dask_use_case dask scikit-learn mlflow matplotlib`
+        1. `conda install -n py36_open_source_dvc_dask_use_case dask scikit-learn`
+        1. `pip install mlflow matplotlib`
         1. `conda env export -n py36_open_source_dvc_dask_use_case > conda_env.yml`
     1. Check dvc version matches your development repository version: `conda activate py36_open_source_dvc && which dvc && dvc --version` and ``conda activate py36_open_source_dvc_dask_use_case && which dvc && dvc --version``
 1. Reproduce the DVC pipeline: `dvc repro` - which have been specified by the following DVC stages:
