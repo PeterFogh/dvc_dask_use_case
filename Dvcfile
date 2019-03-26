@@ -1,14 +1,14 @@
-cmd: python code/evaluate.py
+cmd: python evaluate.py
 deps:
 - md5: 0c352801b554d2ed14557aec73295812
-  path: code/evaluate.py
-- md5: b60c9dc2caa2bd8bb610345493d988ad
-  path: code/conf.py
+  path: evaluate.py
+- md5: 646795aad1b9e67a3b51de35bf5af29b
+  path: conf.py
 - md5: 5287423ff80acf523bead99bddad1658
-  path: remote://ahsoka/dvc_dask_use_case/data/model.p
+  path: remote://ahsoka/dvc_dask_use_case/model.p
 - md5: c7f79967ab83199e59f0b7178b2551b5
-  path: remote://ahsoka/dvc_dask_use_case/data/matrix-test.p
-md5: ce21ff361b8734dcad028915dc599f74
+  path: remote://ahsoka/dvc_dask_use_case/matrix-test.p
+md5: 5636151dd6b90e6f2dc1991c25bdceed
 outs:
 - cache: true
   md5: 8cb7321d7c44212fe4f93eac4536f844

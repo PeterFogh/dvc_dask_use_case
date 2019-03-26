@@ -19,7 +19,7 @@ remote_work_path = urlparse(
 remote_work_path = Path(remote_work_path)
 
 # Specify the paths to the DVC stage dependencies and ourputs
-data_dir = remote_work_path/PROJECT_NAME/'data'
+data_dir = remote_work_path/PROJECT_NAME
 
 source_xml = os.path.join(data_dir, 'Posts.xml')
 source_tsv = os.path.join(data_dir, 'Posts.tsv')

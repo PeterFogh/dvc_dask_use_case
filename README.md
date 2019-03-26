@@ -42,14 +42,18 @@ The use case have the following prerequisites:
 
 ## Use case
 
-This use case of DVC and Dask has been set up as follow:
+This use case of DVC and Dask has been set up as follow.
 
-1. On the remote server do the following, to create the remote DVC data directory for this project (i.e. this use case):
+On your remote server do the following:
+
+1. To create the remote DVC data directory for this project (i.e. this use case):
     1. `cd scratch/dvc_users/[REMOTE_USERNAME]`
     1. `mkdir dvc_dask_use_case`
-    1. `mkdir data`
-    1. `wget -P data/ https://s3-us-west-2.amazonaws.com/dvc-share/so/100K/Posts.xml.tgz`
-    1. `tar zxf data/Posts.xml.tgz -C data/`
+    1. `wget -P ./ https://s3-us-west-2.amazonaws.com/dvc-share/so/100K/Posts.xml.tgz`
+    1. `tar zxf ./Posts.xml.tgz -C ./`
+
+On your local machine do the following:
+
 1. Clone this test repository from my Github: `git clone git@github.com:PeterFogh/dvc_dask_use_case.git`
 1. Install the Conda environment for this repository - note the new enviroment must point to your local DVC development repository:
     1. `conda env create -f conda_env.yml`, which have been create by the following commands (executed the 16-03-2019):
@@ -59,9 +63,9 @@ This use case of DVC and Dask has been set up as follow:
     1. Check dvc version matches your development repository version: `conda activate py36_open_source_dvc && which dvc && dvc --version` and ``conda activate py36_open_source_dvc_dask_use_case && which dvc && dvc --version``
 1. Reproduce the DVC pipeline: `dvc repro` - which have been specified by the following DVC stages:
     1. `conda activate py36_open_source_dvc_dask_use_case`
-    1. `dvc run -d code/xml_to_tsv.py -d code/conf.py -d remote://ahsoka/dvc_dask_use_case/data/Posts.xml -o remote://ahsoka/dvc_dask_use_case/data/Posts.tsv python code/xml_to_tsv.p`
-    1. `dvc run -d code/split_train_test.py -d code/conf.py -d remote://ahsoka/dvc_dask_use_case/data/Posts.tsv -o remote://ahsoka/dvc_dask_use_case/data/Posts-test.tsv -o remote://ahsoka/dvc_dask_use_case/data/Posts-train.tsv python code/split_train_test.py 0.33 20180319`
-    1. `dvc run -d code/featurization.py -d code/conf.py -d remote://ahsoka/dvc_dask_use_case/data/Posts-train.tsv -d remote://ahsoka/dvc_dask_use_case/data/Posts-test.tsv -o remote://ahsoka/dvc_dask_use_case/data/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/data/matrix-test.p python code/featurization.py`
-    1. `dvc run -d code/train_model.py -d code/conf.py -d remote://ahsoka/dvc_dask_use_case/data/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/data/model.p python code/train_model.py 20180319`
-    1. `dvc run -d code/evaluate.py -d code/conf.py -d remote://ahsoka/dvc_dask_use_case/data/model.p -d remote://ahsoka/dvc_dask_use_case/data/matrix-test.p -m eval.txt -f Dvcfile python code/evaluate.py`
+    1. `dvc run -d xml_to_tsv.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/Posts.xml -o remote://ahsoka/dvc_dask_use_case/Posts.tsv -f xml_to_tsv.dvc python xml_to_tsv.py`
+    1. `dvc run -d split_train_test.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/Posts.tsv -o remote://ahsoka/dvc_dask_use_case/Posts-test.tsv -o remote://ahsoka/dvc_dask_use_case/Posts-train.tsv -f split_train_test.dvc python split_train_test.py`
+    1. `dvc run -d featurization.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/Posts-train.tsv -d remote://ahsoka/dvc_dask_use_case/Posts-test.tsv -o remote://ahsoka/dvc_dask_use_case/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/matrix-test.p -f featurization.dvc python featurization.py`
+    1. `dvc run -d train_model.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/model.p -f train_model.dvc python train_model.py`
+    1. ` dvc run -d evaluate.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/model.p -d remote://ahsoka/dvc_dask_use_case/matrix-test.p -m eval.txt -f Dvcfile python evaluate.py`
 1. Show DVC metrics `dvc metrics show -a`.
