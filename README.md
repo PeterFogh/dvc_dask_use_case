@@ -71,7 +71,7 @@ On your local machine do the following:
     1. `dvc run -d train_model.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/matrix-train.p -o remote://ahsoka/dvc_dask_use_case/model.p -f train_model.dvc python train_model.py`
     1. `dvc run -d evaluate.py -d conf.py -d remote://ahsoka/dvc_dask_use_case/model.p -d remote://ahsoka/dvc_dask_use_case/matrix-test.p -m eval.txt -f Dvcfile python evaluate.py`
 1. Show DVC metrics `dvc metrics show -a`.
-1. Visit MLflow tracking server webUI from your local brower at http://localhost:5000/ to see the results of the pipeline.
+1. Visit MLflow tracking server webUI from your local browser at http://localhost:5000/ to see the results of the pipeline.
 
 ## Problems with MLflow for the use case
 
