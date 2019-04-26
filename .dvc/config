@@ -1,0 +1,6 @@
+['remote "ahsoka_project_cache"']
+url = remote://ahsoka/scratch/dvc_project_cache/dvc_dask_use_case/
+[cache]
+ssh = ahsoka_project_cache
+['remote "ahsoka_project_data"']
+url = remote://ahsoka_user_workspace/dvc_dask_use_case/

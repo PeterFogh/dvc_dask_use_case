@@ -11,7 +11,7 @@ The use case have the following prerequisites:
 1. A remote server with:
     1. SSH installed.
     1. A unix user you have the username and password for.
-    1. A folder for your remote shared DVC cache, my is at `/scratch/dvc_data_cache/`.
+    1. A folder for your remote shared DVC cache, my is at `/scratch/dvc_project_cache/`.
     1. A folder for your remote DVC data directories, my is at `/scratch/dvc_users/[REMOTE_USERNAME]/`.
     1. A Dask scheduler installed and running at port 8786, see http://docs.dask.org/en/latest/setup.html for a guide.
     1. A MLflow tracking server installed and running at host 0.0.0.0 and port 5000, with `mlflow server --host 0.0.0.0 --file-store /projects/mlflow_runs/`.
@@ -29,17 +29,14 @@ The use case have the following prerequisites:
     1. `pip install pre-commit`
     1. `pre-commit install`
     1. `which dvc` should say `[HOME]/anaconda3/envs/py36_open_source_dvc/bin/dvc` and `dvc --version` should say the exact version available in you local DVC development repository.
-1. Configure you local DVC globally for you local machine, note that I call my remote server "ahsoka":
+1. Configure you DVC globally (e.g. using the `--global` flag) for you local machine - note that I call my remote server "ahsoka":
     1. `conda activate py36_open_source_dvc`
-    1. `dvc remote add ahsoka ssh://[REMOTE_IP]/scratch/dvc_users/[REMOTE_USERNAME]/ --global`
+    1. `dvc remote add ahsoka ssh://[REMOTE_IP]/ --global`
     1. `dvc remote modify ahsoka user [REMOTE_USERNAME] --global`
     1. `dvc remote modify ahsoka port 22 --global`
     1. `dvc remote modify ahsoka keyfile [PATH_TO_YOUR_PUBLIC_SSH_KEY] --global`
-    1. `dvc remote add ahsoka_cache ssh://[REMOTE_IP]/scratch/dvc_data_cache --global`
-    1. `dvc remote modify ahsoka_cache user [REMOTE_USERNAME] --global`
-    1. `dvc remote modify ahsoka_cache port 22 --global`
-    1. `dvc remote modify ahsoka_cache keyfile [PATH_TO_YOUR_PUBLIC_SSH_KEY] --global`
-    1. `dvc config cache.ssh ahsoka_cache --global`
+    1. `dvc remote add ahsoka_user_workspace remote://ahsoka/scratch/dvc_users/[REMOTE_USERNAME]/ --global`
+    * These globally configured DVC remotes are used by the DVC config file in the Git repository, see `.dvc/config`.
 
 ## Use case
 
@@ -58,10 +55,10 @@ On your local machine do the following:
 
 1. Clone this test repository from my Github: `git clone git@github.com:PeterFogh/dvc_dask_use_case.git`
 1. Install the Conda environment for this repository - note the new enviroment must point to your local DVC development repository:
-    1. `conda env create -f conda_env.yml`, which have been create by the following commands (executed the 16-03-2019):
+    1. `conda env create -f conda_env.yml`, which have been create by the following commands (executed the 26-04-2019):
         1. `conda create --name py36_open_source_dvc_dask_use_case --clone py36_open_source_dvc`
         1. `conda install -n py36_open_source_dvc_dask_use_case dask scikit-learn`
-        1. `pip install mlflow matplotlib`
+        1. `conda activate py36_open_source_dvc_dask_use_case && pip install mlflow matplotlib`
         1. `conda env export -n py36_open_source_dvc_dask_use_case > conda_env.yml`
     1. Check dvc version matches your development repository version: `conda activate py36_open_source_dvc && which dvc && dvc --version` and ``conda activate py36_open_source_dvc_dask_use_case && which dvc && dvc --version``
 1. Reproduce the DVC pipeline: `dvc repro` - which have been specified by the following DVC stages:

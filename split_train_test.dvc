@@ -2,18 +2,20 @@ cmd: python split_train_test.py
 deps:
 - md5: 3473f59b9882e7bbab1ffbf824e09c91
   path: split_train_test.py
-- md5: 22c9bd510158182ace4398ac1ddc9332
+- md5: c448b4bd9ddefd1ffaa927cd32913e9f
   path: conf.py
 - md5: 3f9c7c3ae51db2eed7ba99e6e88a3831
-  path: remote://ahsoka/dvc_dask_use_case/Posts.tsv
-md5: 87c57cf2f9b2b64b5cbea054f1d663e0
+  path: remote://ahsoka_project_data/Posts.tsv
+md5: 2b2832f759744686be5f510ac2670b01
 outs:
 - cache: true
   md5: a453698a3e3c6cd834cf72363a01511d
   metric: false
-  path: remote://ahsoka/dvc_dask_use_case/Posts-test.tsv
+  path: remote://ahsoka_project_data/Posts-test.tsv
+  persist: false
 - cache: true
   md5: 0323b09cf362ea25c3ac958e586b33f2
   metric: false
-  path: remote://ahsoka/dvc_dask_use_case/Posts-train.tsv
+  path: remote://ahsoka_project_data/Posts-train.tsv
+  persist: false
 wdir: .

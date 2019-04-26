@@ -2,20 +2,22 @@ cmd: python featurization.py
 deps:
 - md5: 903a645afaa9d903db32bdac86d98443
   path: featurization.py
-- md5: 22c9bd510158182ace4398ac1ddc9332
+- md5: c448b4bd9ddefd1ffaa927cd32913e9f
   path: conf.py
 - md5: 0323b09cf362ea25c3ac958e586b33f2
-  path: remote://ahsoka/dvc_dask_use_case/Posts-train.tsv
+  path: remote://ahsoka_project_data/Posts-train.tsv
 - md5: a453698a3e3c6cd834cf72363a01511d
-  path: remote://ahsoka/dvc_dask_use_case/Posts-test.tsv
-md5: 2be9adcc5c600bffa98bf4379f2337d2
+  path: remote://ahsoka_project_data/Posts-test.tsv
+md5: 332f261d584268e0a3e41dd277f6d42f
 outs:
 - cache: true
   md5: 9927807fdb876c0c62aba6bff658ba47
   metric: false
-  path: remote://ahsoka/dvc_dask_use_case/matrix-train.p
+  path: remote://ahsoka_project_data/matrix-train.p
+  persist: false
 - cache: true
   md5: c7f79967ab83199e59f0b7178b2551b5
   metric: false
-  path: remote://ahsoka/dvc_dask_use_case/matrix-test.p
+  path: remote://ahsoka_project_data/matrix-test.p
+  persist: false
 wdir: .
