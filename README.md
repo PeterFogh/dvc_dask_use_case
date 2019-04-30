@@ -15,8 +15,8 @@ The use case have the following prerequisites:
     1. A folder for your remote DVC data directories, my is at `/scratch/dvc_users/[REMOTE_USERNAME]/`.
     1. A Dask scheduler installed and running at port 8786, see http://docs.dask.org/en/latest/setup.html for a guide.
     1. A MLflow tracking server installed and running at host 0.0.0.0 and port 5000, with `mlflow server --host 0.0.0.0 --file-store /projects/mlflow_runs/`.
-1. A local SSH keyfile (`ssh-keygen`), which have been copied to the remote server: `ssh-copy-id [REMOTE_USERNAME]@[REMOTE_IP]`.
-1. An open SSH port-forward to the Dask scheduler and MLflow tracking server from your local machine to the remote server, with `ssh -L 8786:[REMOTE_USERNAME]@[REMOTE_IP]:8786, -L 5000:[REMOTE_USERNAME]@[REMOTE_IP]:5000 [REMOTE_USERNAME]@[REMOTE_IP]`.
+1. A local SSH keyfile (`ssh-keygen`), which have been copied to the remote server, with `ssh-copy-id [REMOTE_USERNAME]@[REMOTE_IP]`.
+1. An open SSH port-forward to the Dask scheduler and MLflow tracking server from your local machine to the remote server, with `ssh -L 8786:[REMOTE_USERNAME]@[REMOTE_IP]:8786 -L 5000:[REMOTE_USERNAME]@[REMOTE_IP]:5000 [REMOTE_USERNAME]@[REMOTE_IP]`.
 1. Set up local DVC development repository (following https://dvc.org/doc/user-guide/contributing/) with a conda environment:
     1. Fork https://github.com/iterative/dvc on Github.
     1. `git clone git@github.com:<GITHUB_USERNAME>/dvc.git`
@@ -36,7 +36,7 @@ The use case have the following prerequisites:
     1. `dvc remote modify ahsoka port 22 --global`
     1. `dvc remote modify ahsoka keyfile [PATH_TO_YOUR_PUBLIC_SSH_KEY] --global`
     1. `dvc remote add ahsoka_user_workspace remote://ahsoka/scratch/dvc_users/[REMOTE_USERNAME]/ --global`
-    * These globally configured DVC remotes are used by the DVC config file in the Git repository, see `.dvc/config`.
+    * These globally configured DVC remotes are used by the DVC config file in the Git repository, see `.dvc/config`, to specify project specific remotes for the DVC cache and DVC data workspace.
 
 ## Use case
 
