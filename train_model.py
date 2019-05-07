@@ -51,8 +51,11 @@ def train(input, output, model, model_params):
 
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
-    INPUT_TRAIN_MATRIX_PATH = conf.data_dir/'matrix-train.p'
-    OUTPUT_MODEL_PATH = conf.data_dir/'model.p'
+    INPUT_TRAIN_MATRIX_PATH = conf.data_dir/'featurization'/'matrix-train.p'
+    dvc_stage_name = __file__.strip('.py')
+    STAGE_OUTPUT_PATH = conf.data_dir/dvc_stage_name
+    conf.remote_mkdir(STAGE_OUTPUT_PATH).compute()
+    OUTPUT_MODEL_PATH = STAGE_OUTPUT_PATH/'model.p'
 
     config = get_params()
     CLASSIFIER = config['classifier']

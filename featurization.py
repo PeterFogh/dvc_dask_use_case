@@ -87,10 +87,13 @@ def featurize(train_input, test_input, train_output, test_output,
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
     np.set_printoptions(suppress=True)
-    INPUT_TRAIN_TSV_PATH = conf.data_dir/'Posts-train.tsv'
-    INPUT_TEST_TSV_PATH = conf.data_dir/'Posts-test.tsv'
-    OUTPUT_TRAIN_MATRIX_PATH = conf.data_dir/'matrix-train.p'
-    OUTPUT_TEST_MATRIX_PATH = conf.data_dir/'matrix-test.p'
+    INPUT_TRAIN_TSV_PATH = conf.data_dir/'split_train_test'/'Posts-train.tsv'
+    INPUT_TEST_TSV_PATH = conf.data_dir/'split_train_test'/'Posts-test.tsv'
+    dvc_stage_name = __file__.strip('.py')
+    STAGE_OUTPUT_PATH = conf.data_dir/dvc_stage_name
+    conf.remote_mkdir(STAGE_OUTPUT_PATH).compute()
+    OUTPUT_TRAIN_MATRIX_PATH = STAGE_OUTPUT_PATH/'matrix-train.p'
+    OUTPUT_TEST_MATRIX_PATH = STAGE_OUTPUT_PATH/'matrix-test.p'
 
     config = get_params()
     MAX_FEATUERS = config['max_features']

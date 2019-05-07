@@ -60,13 +60,11 @@ def process_xml_to_tsv(input_path, output_path):
 
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
+    dvc_stage_name = __file__.strip('.py')
     INPUT_DATASET_XML_PATH = conf.data_dir/'Posts.xml'
-    DATA_PATH = conf.data_dir/'xml_to_tsv'
-    print(DATA_PATH)
-    dask.delayed(DATA_PATH.mkdir)(exist_ok=True).compute()
-    # mode=0o2770 enables user to overwrite data written by dask user
-    dask.delayed(DATA_PATH.chmod)(mode=0o2770).compute()
-    OUTPUT_DATASET_TSV_PATH = DATA_PATH/'Posts.tsv'
+    STAGE_OUTPUT_PATH = conf.data_dir/dvc_stage_name
+    conf.remote_mkdir(STAGE_OUTPUT_PATH).compute()
+    OUTPUT_DATASET_TSV_PATH = STAGE_OUTPUT_PATH/'Posts.tsv'
 
     process_xml_to_tsv(
         INPUT_DATASET_XML_PATH, OUTPUT_DATASET_TSV_PATH).compute()

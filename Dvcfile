@@ -1,18 +1,23 @@
 cmd: python evaluate.py
 deps:
-- md5: fc1eea9518603c52ab33d0e8d0546e85
+- md5: e20216b38d5e543e2d1fd5eaa81a1b77
   path: evaluate.py
-- md5: c448b4bd9ddefd1ffaa927cd32913e9f
+- md5: 7613d05c2e9f596257b70c84e43b7a61
   path: conf.py
-- md5: 220bf5d59ad4bc2179b0573b42fa5c16
-  path: remote://ahsoka_project_data/model.p
-- md5: c7f79967ab83199e59f0b7178b2551b5
-  path: remote://ahsoka_project_data/matrix-test.p
-md5: ddb35a29504ef05b011e70f1063cb1fa
+- md5: 5a2c173aa35f406247637a1468f73928.dir
+  path: remote://ahsoka_project_data/train_model/
+- md5: 574dfd6982cc776d9117820f9db8f0ad.dir
+  path: remote://ahsoka_project_data/featurization/
+md5: 35b2024588f417f9df4b60c3de0d00e1
 outs:
 - cache: true
   md5: 3c872693e00d1599fd1508032be2ac32
   metric: true
   path: eval.txt
+  persist: false
+- cache: true
+  md5: 2725bda33e6bc53aad068acd04a1f94f.dir
+  metric: false
+  path: remote://ahsoka_project_data/evaluate/
   persist: false
 wdir: .
