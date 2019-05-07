@@ -57,9 +57,9 @@ On your local machine do the following:
     1. `dvc run -d download_xml.py -d conf.py -o remote://ahsoka_project_data/download_xml/ -f download_xml.dvc python download_xml.py`
     1. `dvc run -d xml_to_tsv.py -d conf.py -d remote://ahsoka_project_data/download_xml/ -o remote://ahsoka_project_data/xml_to_tsv/ -f xml_to_tsv.dvc python xml_to_tsv.py`
     1. `dvc run -d split_train_test.py -d conf.py -d remote://ahsoka_project_data/xml_to_tsv/ -o remote://ahsoka_project_data/split_train_test/ -f split_train_test.dvc python split_train_test.py`
-    1. `dvc run -d featurization.py -d conf.py -d remote://ahsoka_project_data/split_train_test/ -d -o remote://ahsoka_project_data/featurization/ -f featurization.dvc python featurization.py`
+    1. `dvc run -d featurization.py -d conf.py -d remote://ahsoka_project_data/split_train_test/ -o remote://ahsoka_project_data/featurization/ -f featurization.dvc python featurization.py`
     1. `dvc run -d train_model.py -d conf.py -d remote://ahsoka_project_data/featurization/ -o remote://ahsoka_project_data/train_model/ -f train_model.dvc python train_model.py`
-    1. `dvc run -d evaluate.py -d conf.py -d remote://ahsoka_project_data/train_model/ -o remote://ahsoka_project_data/evaluation/ -m eval.txt -f Dvcfile python evaluate.py`
+    1. `dvc run -d evaluate.py -d conf.py -d remote://ahsoka_project_data/featurization/ -d remote://ahsoka_project_data/train_model/ -o remote://ahsoka_project_data/evaluate/ -m eval.txt -f Dvcfile python evaluate.py`
 1. Show DVC metrics `dvc metrics show -a`.
 1. Visit MLflow tracking server webUI from your local browser at http://localhost:5000/ to see the results of the pipeline.
 
