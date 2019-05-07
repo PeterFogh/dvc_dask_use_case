@@ -68,10 +68,13 @@ def split(seed, test_ratio, input_path, train, test):
 
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
-
-    INPUT_DATASET_TSV_PATH = conf.data_dir/'Posts.tsv'
-    OUTPUT_TRAIN_TSV_PATH = conf.data_dir/'Posts-train.tsv'
-    OUTPUT_TEST_TSV_PATH = conf.data_dir/'Posts-test.tsv'
+    INPUT_DATASET_TSV_PATH = conf.data_dir/'xml_to_tsv'/'Posts.tsv'
+    dvc_stage_name = __file__.strip('.py')
+    print(f'dvc_stage_name: {dvc_stage_name}')
+    STAGE_OUTPUT_PATH = conf.data_dir/dvc_stage_name
+    conf.remote_mkdir(STAGE_OUTPUT_PATH).compute()
+    OUTPUT_TRAIN_TSV_PATH = STAGE_OUTPUT_PATH/'Posts-train.tsv'
+    OUTPUT_TEST_TSV_PATH = STAGE_OUTPUT_PATH/'Posts-test.tsv'
 
     config = get_params()
     TEST_RATIO = config['test_ratio']

@@ -1,23 +1,16 @@
 cmd: python featurization.py
 deps:
-- md5: 903a645afaa9d903db32bdac86d98443
+- md5: 906716d34bb0878a2d8f7554b2f59e0c
   path: featurization.py
-- md5: c448b4bd9ddefd1ffaa927cd32913e9f
+- md5: 7613d05c2e9f596257b70c84e43b7a61
   path: conf.py
-- md5: 0323b09cf362ea25c3ac958e586b33f2
-  path: remote://ahsoka_project_data/Posts-train.tsv
-- md5: a453698a3e3c6cd834cf72363a01511d
-  path: remote://ahsoka_project_data/Posts-test.tsv
-md5: 332f261d584268e0a3e41dd277f6d42f
+- md5: 71041ce169ccb519c32316a1885d5413.dir
+  path: remote://ahsoka_project_data/split_train_test/
+md5: 50aa6f8df2e1a878bb47988af2d84ec7
 outs:
 - cache: true
-  md5: 9927807fdb876c0c62aba6bff658ba47
+  md5: 574dfd6982cc776d9117820f9db8f0ad.dir
   metric: false
-  path: remote://ahsoka_project_data/matrix-train.p
-  persist: false
-- cache: true
-  md5: c7f79967ab83199e59f0b7178b2551b5
-  metric: false
-  path: remote://ahsoka_project_data/matrix-test.p
+  path: remote://ahsoka_project_data/featurization/
   persist: false
 wdir: .

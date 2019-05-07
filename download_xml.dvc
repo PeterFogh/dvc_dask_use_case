@@ -1,0 +1,14 @@
+md5: e89ecd9072555fb508e6492a92e51585
+cmd: python download_xml.py
+wdir: .
+deps:
+- md5: e8cd7d16ad01e94de73edb79eb03168a
+  path: download_xml.py
+- md5: 7613d05c2e9f596257b70c84e43b7a61
+  path: conf.py
+outs:
+- md5: 70191184d3c7f8a5a67ef1dc40809fd7.dir
+  path: remote://ahsoka_project_data/download_xml/
+  cache: true
+  metric: false
+  persist: false

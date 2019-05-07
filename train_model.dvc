@@ -1,16 +1,16 @@
 cmd: python train_model.py
 deps:
-- md5: 69f351639f500f40f20b320e4d005690
+- md5: a740c34e5e54798b08e3f32bd73f1b01
   path: train_model.py
-- md5: c448b4bd9ddefd1ffaa927cd32913e9f
+- md5: 7613d05c2e9f596257b70c84e43b7a61
   path: conf.py
-- md5: 9927807fdb876c0c62aba6bff658ba47
-  path: remote://ahsoka_project_data/matrix-train.p
-md5: fb05b447fb9f40bf934d0a83dcd35678
+- md5: 574dfd6982cc776d9117820f9db8f0ad.dir
+  path: remote://ahsoka_project_data/featurization/
+md5: b9fd7ef4a8c709b388eca73009b6267a
 outs:
 - cache: true
-  md5: 220bf5d59ad4bc2179b0573b42fa5c16
+  md5: 5a2c173aa35f406247637a1468f73928.dir
   metric: false
-  path: remote://ahsoka_project_data/model.p
+  path: remote://ahsoka_project_data/train_model/
   persist: false
 wdir: .

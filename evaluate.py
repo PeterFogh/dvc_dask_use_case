@@ -76,11 +76,14 @@ def save_plot(path, train_auc, test_auc):
 
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
-    INPUT_TRAIN_MATRIX_PATH = conf.data_dir/'matrix-train.p'
-    INPUT_TEST_MATRIX_PATH = conf.data_dir/'matrix-test.p'
-    INPUT_MODEL_PATH = conf.data_dir/'model.p'
+    INPUT_TRAIN_MATRIX_PATH = conf.data_dir/'featurization'/'matrix-train.p'
+    INPUT_TEST_MATRIX_PATH = conf.data_dir/'featurization'/'matrix-test.p'
+    INPUT_MODEL_PATH = conf.data_dir/'train_model'/'model.p'
+    dvc_stage_name = __file__.strip('.py')
+    STAGE_OUTPUT_PATH = conf.data_dir/dvc_stage_name
+    conf.remote_mkdir(STAGE_OUTPUT_PATH).compute()
     OUTPUT_METRICS_PATH = 'eval.txt'
-    OUTPUT_PLOT_PATH = conf.data_dir/'train_test_auc_plot.png'
+    OUTPUT_PLOT_PATH = STAGE_OUTPUT_PATH/'train_test_auc_plot.png'
 
     train_auc = evaluate(INPUT_MODEL_PATH, INPUT_TRAIN_MATRIX_PATH).compute()
     test_auc = evaluate(INPUT_MODEL_PATH, INPUT_TEST_MATRIX_PATH).compute()

@@ -1,16 +1,16 @@
 cmd: python xml_to_tsv.py
 deps:
-- md5: 14360a3b507269d13e83386d54436342
+- md5: 3ae9f89faf7a851704b6c04eecb396ce
   path: xml_to_tsv.py
-- md5: c448b4bd9ddefd1ffaa927cd32913e9f
+- md5: 7613d05c2e9f596257b70c84e43b7a61
   path: conf.py
-- md5: cfdaa4bba57fa07d81ff96685a9aab2c
-  path: remote://ahsoka_project_data/Posts.xml
-md5: 6c6eacb1f6b782987596bd275d5a35a0
+- md5: 70191184d3c7f8a5a67ef1dc40809fd7.dir
+  path: remote://ahsoka_project_data/download_xml/
+md5: 1ec093e01c70509e2d251a467257daa3
 outs:
 - cache: true
-  md5: 3f9c7c3ae51db2eed7ba99e6e88a3831
+  md5: 94e2ba2f0f9f1d25287283e3949699db.dir
   metric: false
-  path: remote://ahsoka_project_data/Posts.tsv
+  path: remote://ahsoka_project_data/xml_to_tsv/
   persist: false
 wdir: .

@@ -42,15 +42,6 @@ The use case have the following prerequisites:
 
 This use case of DVC and Dask has been set up as follow.
 
-On your remote server do the following:
-
-1. To create the remote DVC data directory for this project (i.e. this use case):
-    1. `cd scratch/dvc_users/[REMOTE_USERNAME]`
-    1. `mkdir dvc_dask_use_case`
-    1. `cd dvc_dask_use_case`
-    1. `wget -P ./ https://s3-us-west-2.amazonaws.com/dvc-share/so/100K/Posts.xml.tgz`
-    1. `tar zxf ./Posts.xml.tgz -C ./`
-
 On your local machine do the following:
 
 1. Clone this test repository from my Github: `git clone git@github.com:PeterFogh/dvc_dask_use_case.git`
@@ -63,6 +54,7 @@ On your local machine do the following:
     1. Check dvc version matches your development repository version: `conda activate py36_open_source_dvc && which dvc && dvc --version` and ``conda activate py36_open_source_dvc_dask_use_case && which dvc && dvc --version``
 1. Reproduce the DVC pipeline: `dvc repro` - which have been specified by the following DVC stages:
     1. `conda activate py36_open_source_dvc_dask_use_case`
+    1. `dvc run -d download_xml.py -d conf.py -o remote://ahsoka_project_data/download_xml/ -f download_xml.dvc python download_xml.py`
     1. `dvc run -d xml_to_tsv.py -d conf.py -d remote://ahsoka_project_data/Posts.xml -o remote://ahsoka_project_data/Posts.tsv -f xml_to_tsv.dvc python xml_to_tsv.py`
     1. `dvc run -d split_train_test.py -d conf.py -d remote://ahsoka_project_data/Posts.tsv -o remote://ahsoka_project_data/Posts-test.tsv -o remote://ahsoka_project_data/Posts-train.tsv -f split_train_test.dvc python split_train_test.py`
     1. `dvc run -d featurization.py -d conf.py -d remote://ahsoka_project_data/Posts-train.tsv -d remote://ahsoka_project_data/Posts-test.tsv -o remote://ahsoka_project_data/matrix-train.p -o remote://ahsoka_project_data/matrix-test.p -f featurization.dvc python featurization.py`
