@@ -61,7 +61,7 @@ def process_xml_to_tsv(input_path, output_path):
 if __name__ == '__main__':
     client = dask.distributed.Client('localhost:8786')
     dvc_stage_name = __file__.strip('.py')
-    INPUT_DATASET_XML_PATH = conf.data_dir/'Posts.xml'
+    INPUT_DATASET_XML_PATH = conf.data_dir/'download_xml'/'Posts.xml'
     STAGE_OUTPUT_PATH = conf.data_dir/dvc_stage_name
     conf.remote_mkdir(STAGE_OUTPUT_PATH).compute()
     OUTPUT_DATASET_TSV_PATH = STAGE_OUTPUT_PATH/'Posts.tsv'
