@@ -4,12 +4,12 @@ deps:
   path: train_model.py
 - md5: 7613d05c2e9f596257b70c84e43b7a61
   path: conf.py
-- md5: 574dfd6982cc776d9117820f9db8f0ad.dir
+- md5: cd510c270857f94a82633250e3ea7488.dir
   path: remote://ahsoka_project_data/featurization/
-md5: b9fd7ef4a8c709b388eca73009b6267a
+md5: d034c1acf2ae4fa2ddc0cf9a21dbf8e5
 outs:
 - cache: true
-  md5: 5a2c173aa35f406247637a1468f73928.dir
+  md5: 52ea763e0678d8c6c8e8e9826d5a9c8f.dir
   metric: false
   path: remote://ahsoka_project_data/train_model/
   persist: false
